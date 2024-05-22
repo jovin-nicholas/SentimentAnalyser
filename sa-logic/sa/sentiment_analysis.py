@@ -4,15 +4,18 @@ import requests
 
 app = Flask(__name__)
 
+#Check if app is running
 @app.route("/testHealth", methods=['GET'])
 def hello():
     return "Hello from python sentiment analysis flask app!"
 
+#Check connection to Java app (Simple)
 @app.route("/testCommsLocal", methods=['GET'])
 def test_comms_local():
     response = requests.get("http://localhost:8080/testHealth")
     return response.text
 
+#Check connection to Java app
 @app.route("/testComms", methods=['GET'])
 def test_comms():
     try:
