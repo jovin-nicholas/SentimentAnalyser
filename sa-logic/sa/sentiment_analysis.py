@@ -2,9 +2,15 @@ from textblob import TextBlob
 from flask import Flask, request, jsonify
 import requests
 from flask_cors import CORS
-
+import nltk
+nltk.download('punkt')
 app = Flask(__name__)
 CORS(app)
+# cors = CORS(app, resource={
+#     r"/*":{
+#         "origins":"*"
+#     }
+# })
 
 #Check if app is running
 @app.route("/testHealth", methods=['GET'])
@@ -14,14 +20,16 @@ def hello():
 #Check connection to Java app (Simple)
 @app.route("/testCommsLocal", methods=['GET'])
 def test_comms_local():
-    response = requests.get("http://localhost:8080/testHealth")
+    response = requests.get("http://10.5.0.5:8080/testHealth")
     return response.text
+
+
 
 #Check connection to Java app
 @app.route("/testComms", methods=['GET'])
 def test_comms():
     try:
-        response = requests.get("http://localhost:8080/testHealth")
+        response = requests.get("http://10.5.0.5:8080/testHealth")
         if response.status_code == 200:
             return response.text
         else:
